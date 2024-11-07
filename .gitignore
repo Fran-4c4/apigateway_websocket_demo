@@ -1,0 +1,15 @@
+
+.idea
+.venv
+.DS_Store
+.envrc
+.python-version
+.python-virtualenv
+*.log
+deployment.zip
+apigateway_package.zip
+package/
+
+logs/
+__pycache__/
+*.py[cod]

@@ -1,0 +1,8 @@
+boto3>=1.26.102
+PyJWT
+#windows
+psycopg2-binary==2.9.6; sys_platform == 'win32' and python_version >= '3.7' and python_version < '3.8'
+psycopg2-binary>=2.9.6; sys_platform == 'win32' and python_version >= '3.8'
+#linux
+psycopg2==2.9.1; sys_platform == 'linux' and python_version >= '3.7' and python_version < '3.8'
+psycopg2>=2.9.1; sys_platform == 'linux' and python_version >= '3.8'

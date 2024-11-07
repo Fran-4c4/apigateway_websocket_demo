@@ -1,0 +1,155 @@
+Resources:
+  websocketappdynamo01:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      KeySchema:
+        - AttributeName: participant_id
+          KeyType: HASH
+        - AttributeName: space
+          KeyType: RANGE
+      AttributeDefinitions:
+        - AttributeName: participant_id
+          AttributeType: S
+        - AttributeName: space
+          AttributeType: S          
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      TableName: websocketapp-table
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+    Metadata:
+      aws:cdk:path: apigateway-websocket/websocketapp-table/Resource
+  websocketappRole01:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      RoleName: apigateway-websocketapp-role
+    Metadata:
+      aws:cdk:path: apigateway-websocket/apigateway-websocketapp-role/Resource
+  websocketappDefaultPolicy01:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - dynamodb:DeleteItem
+              - dynamodb:GetItem
+              - dynamodb:PutItem
+              - dynamodb:Scan
+            Effect: Allow
+            Resource:
+              Fn::GetAtt:
+                - websocketappdynamo01
+                - Arn
+        Version: "2012-10-17"
+      PolicyName: websocketappDefaultPolicy01
+      Roles:
+        - Ref: websocketappRole01
+    Metadata:
+      aws:cdk:path: apigateway-websocket/apigateway-websocketapp-role/DefaultPolicy/Resource
+  websocketappLambda01:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        ZipFile: "# This placeholder is replaced during code example deployment."
+      Role:
+        Fn::GetAtt:
+          - websocketappRole01
+          - Arn
+      Environment:
+        Variables:
+          table_name:
+            Ref: websocketappdynamo01
+      Handler: lambda_websocket.lambda_handler
+      Runtime: python3.7
+    DependsOn:
+      - websocketappDefaultPolicy01
+      - websocketappRole01
+    Metadata:
+      aws:cdk:path: apigateway-websocket/websocketapp-lambda/Resource
+  CDKMetadata:
+    Type: AWS::CDK::Metadata
+    Properties:
+      Modules: aws-cdk=1.80.0,@aws-cdk/assets=1.83.0,@aws-cdk/aws-applicationautoscaling=1.83.0,@aws-cdk/aws-autoscaling-common=1.83.0,@aws-cdk/aws-cloudwatch=1.83.0,@aws-cdk/aws-codeguruprofiler=1.83.0,@aws-cdk/aws-dynamodb=1.83.0,@aws-cdk/aws-ec2=1.83.0,@aws-cdk/aws-ecr=1.83.0,@aws-cdk/aws-ecr-assets=1.83.0,@aws-cdk/aws-events=1.83.0,@aws-cdk/aws-iam=1.83.0,@aws-cdk/aws-kms=1.83.0,@aws-cdk/aws-lambda=1.83.0,@aws-cdk/aws-logs=1.83.0,@aws-cdk/aws-s3=1.83.0,@aws-cdk/aws-s3-assets=1.83.0,@aws-cdk/aws-sqs=1.83.0,@aws-cdk/aws-ssm=1.83.0,@aws-cdk/cloud-assembly-schema=1.83.0,@aws-cdk/core=1.83.0,@aws-cdk/custom-resources=1.83.0,@aws-cdk/cx-api=1.83.0,@aws-cdk/region-info=1.83.0,jsii-runtime=node.js/v14.15.2
+    Metadata:
+      aws:cdk:path: apigateway-websocket/CDKMetadata/Default
+    Condition: CDKMetadataAvailable
+Conditions:
+  CDKMetadataAvailable:
+    Fn::Or:
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-northeast-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-northeast-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ca-central-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - cn-north-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - cn-northwest-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-central-1
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-north-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-3
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - me-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - sa-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-east-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-west-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-west-2
+

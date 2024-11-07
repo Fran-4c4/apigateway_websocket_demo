@@ -1,0 +1,49 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "name": "Python: chat",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/app_cfg.py",
+            "console": "integratedTerminal",
+            "args": ["chat"]
+        },
+        {
+            "name": "Deploy rest",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/app_cfg.py",
+            "console": "integratedTerminal",
+            "args": ["deploy-rest"]
+        },
+        {
+            "name": "Deploy stack",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/app_cfg.py",
+            "console": "integratedTerminal",
+            "args": ["deploy-stack"]
+        },
+        {
+            "name": "Deploy lambda",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/app_cfg.py",
+            "console": "integratedTerminal",
+            "args": ["deploy-lbd"]
+        },
+        {
+            "name": "Update lambda code",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/app_cfg.py",
+            "console": "integratedTerminal",
+            "args": ["lbd-update"]
+        }        
+    ]
+}
