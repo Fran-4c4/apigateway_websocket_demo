@@ -3,7 +3,7 @@
 ## Purpose
 
 Shows how to use the AWS SDK for Python (Boto3) with Amazon API Gateway V2 to
-create a websocket API that integrates with AWS Lambda and Postgres.
+create a websocket API that integrates with AWS Lambda and Postgres. This code is based on AWS apigateway example with dynamodb.
 
 * Create a websocket API served by API Gateway.
 * Define a Lambda handler that stores connections in DB and posts messages to
